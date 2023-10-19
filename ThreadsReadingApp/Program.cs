@@ -193,6 +193,7 @@ namespace ThreadsReadingApp
             t5.Join();
             TimeSpan ts = sw.Elapsed;
             Console.WriteLine("Elapsed time: " + ts.ToString("mm\\:ss\\.ff"));
+            Console.ReadLine();
         }
     }
 }
