@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ThreadsReadingApp
@@ -10,7 +11,7 @@ namespace ThreadsReadingApp
         {
             string filePath = path.ToString();
             int wordCount = 0;
-            using (StreamReader sr = new StreamReader(filePath))
+            using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
@@ -19,6 +20,7 @@ namespace ThreadsReadingApp
                     wordCount += words.Length;
                 }
             }
+
             Console.WriteLine($"Number of words:{wordCount}");
         }
 
@@ -27,7 +29,7 @@ namespace ThreadsReadingApp
             string filePath = path.ToString();
             string longestWord = string.Empty;
 
-            using (StreamReader sr = new StreamReader(filePath))
+            using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
@@ -42,6 +44,7 @@ namespace ThreadsReadingApp
                         }
                     }
                 }
+    
                 Console.WriteLine($"Longest Word: {longestWord}");
             }
         }
@@ -51,7 +54,7 @@ namespace ThreadsReadingApp
            string filePath = path.ToString();
            string shortestWord = string.Empty;
 
-            using (StreamReader sr = new StreamReader(filePath))
+            using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
@@ -67,6 +70,7 @@ namespace ThreadsReadingApp
                     }
                 }
             }
+
             Console.WriteLine($"Shortest Word: {shortestWord}");
         }
 
@@ -75,7 +79,7 @@ namespace ThreadsReadingApp
             string filePath = path.ToString();
             Dictionary<string, int> wordFrequency = new Dictionary<string, int>();
 
-            using (StreamReader sr = new StreamReader(filePath))
+            using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
@@ -107,6 +111,7 @@ namespace ThreadsReadingApp
                 if (count >= 5)
                     break;
             }
+
             Console.Write("Five most common words: ");
             foreach (var entry in mostCommonWords)
             {
@@ -154,6 +159,7 @@ namespace ThreadsReadingApp
             Console.Write("Five most uncommon words: ");
             foreach (var entry in mostUncommonWords)
             {
+    
                 Console.Write($"{entry.Key}: {entry.Value}, ");
             }
             Console.WriteLine();
@@ -172,6 +178,7 @@ namespace ThreadsReadingApp
 
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
             Stopwatch sw = new Stopwatch();
             sw.Start();
             string bookName = "Verblud.txt";
