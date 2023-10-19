@@ -7,10 +7,10 @@ namespace ThreadsReadingApp
 {
     internal class Program
     {
+        public static int wordCount = 0;
         static void returnNumberOfWords(object path)
         {
             string filePath = path.ToString();
-            int wordCount = 0;
             using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
             {
                 string line;
@@ -72,6 +72,26 @@ namespace ThreadsReadingApp
             }
 
             Console.WriteLine($"Shortest Word: {shortestWord}");
+        }
+        static void returnAverageLength(object path)
+        {
+            string filePath = path.ToString();
+            double averageLength = 0;
+            using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] words = RemovePunctuation(line).Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string word in words)
+                    {
+                        averageLength += word.Length;
+                    }
+                }
+            }
+            averageLength = Math.Round(averageLength / (double)wordCount, 2);
+
+            Console.WriteLine($"Average Word Length: {averageLength}");
         }
 
         static void returnCommonWords(object path)
@@ -188,16 +208,19 @@ namespace ThreadsReadingApp
             Thread t3 = new Thread(returnShortestWord);
             Thread t4 = new Thread(returnCommonWords);
             Thread t5 = new Thread(returnUncommonWords);
+            Thread t6 = new Thread(returnAverageLength);
             t1.Start(filePath);
             t2.Start(filePath);
             t3.Start(filePath);
             t4.Start(filePath);
             t5.Start(filePath);
+            t6.Start(filePath);
             t1.Join();
             t2.Join();
             t3.Join();
             t4.Join();
             t5.Join();
+            t6.Join();
             TimeSpan ts = sw.Elapsed;
             Console.WriteLine("Elapsed time: " + ts.ToString("mm\\:ss\\.ff"));
             Console.ReadLine();
